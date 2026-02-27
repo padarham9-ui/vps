@@ -9,10 +9,13 @@ jobs:
 
     steps:
     - name: Download ngrok v3 (Official)
-      run: Invoke-WebRequest https://bin.equinox.io/c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+      run: Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+
+    - name: Remove old ngrok folder
+      run: Remove-Item -Recurse -Force .\ngrok
 
     - name: Extract ngrok
-      run: Expand-Archive ngrok.zip
+      run: Expand-Archive ngrok.zip -DestinationPath .\ngrok
 
     - name: Authenticate ngrok
       run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
