@@ -1,0 +1,28 @@
+name: Build SSH Key
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'آدرس ریپازیتوری (مثل: git@github.com:user/repo.git)'
+        required: true
+
+jobs:
+  create-ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          ssh-keygen -t ed25519 -f key -N ""
+          echo "✅ کلید ساخته شد"
+          echo "-----------------------------------"
+          echo "🔑 کلید عمومی (برو تو GitHub -> Settings -> Deploy keys بچسبون):"
+          echo "-----------------------------------"
+          cat key.pub
+          echo "-----------------------------------"
+          echo "🔐 کلید خصوصی (اینو دانلود کن بعداً باهاش کلون کن):"
+          echo "-----------------------------------"
+          cat key
+      - uses: actions/upload-artifact@v4
+        with:
+          name: private-key
+          path: key
